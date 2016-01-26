@@ -9,13 +9,12 @@ from ..ImageTools import *
 from DialogBaseInfo import DialogBaseInfo
 from ..WindowManager import wm
 from ActionHandler import ActionHandler
-from .. import VideoPlayer
+from ..VideoPlayer import PLAYER
 
 ch = ActionHandler()
-PLAYER = VideoPlayer.VideoPlayer()
 
 
-def get_season_window(window_type):
+def get_window(window_type):
 
     class DialogSeasonInfo(DialogBaseInfo, window_type):
 
@@ -68,5 +67,11 @@ def get_season_window(window_type):
         def open_text(self):
             xbmcgui.Dialog().textviewer(heading=LANG(32037),
                                         text=self.info["Plot"])
+
+        @ch.click(1150)
+        def play_youtube_video(self):
+            PLAYER.play_youtube_video(youtube_id=self.listitem.getProperty("youtube_id"),
+                                      listitem=self.listitem,
+                                      window=self)
 
     return DialogSeasonInfo
